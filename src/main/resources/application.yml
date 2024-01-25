@@ -1,0 +1,5 @@
+application:
+  max-allowed-books: 15
+
+server:
+  port: 8899
