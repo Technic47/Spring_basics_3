@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reader</title>
+</head>
+<body>
+
+<ol>
+    Reader info
+    <li th:text="'Id - ' + ${reader.getId()}"/>
+    <li th:text="'Name - ' + ${reader.getName()}"/>
+</ol>
+<ol>
+    Books:
+    <li th:each="book : ${reader.getBooks()}">
+        <p th:text="${book.getName()}"></p>
+    </li>
+</ol>
+</body>
+</html>

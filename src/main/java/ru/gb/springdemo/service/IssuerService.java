@@ -1,7 +1,6 @@
 package ru.gb.springdemo.service;
 
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.gb.springdemo.api.IssueRequest;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-@RequiredArgsConstructor
 public class IssuerService extends AbstractService<Issue, IssueRepository> {
     @Value("${application.max-allowed-books}")
     private int bookLimit = 1;
@@ -25,6 +23,21 @@ public class IssuerService extends AbstractService<Issue, IssueRepository> {
     // спринг это все заинжектит
     private final BookRepository bookRepository;
     private final ReaderRepository readerRepository;
+
+    @PostConstruct
+    public void init() {
+        List<Book> books = bookRepository.getAll();
+        List<Reader> readers = readerRepository.getAll();
+        if (!books.isEmpty() && !readers.isEmpty()) {
+            issue(new IssueRequest(readers.get(0).getId(), books.get(0).getId()));
+        }
+    }
+
+    public IssuerService(IssueRepository issueRepository, BookRepository bookRepository, ReaderRepository readerRepository) {
+        super(issueRepository);
+        this.bookRepository = bookRepository;
+        this.readerRepository = readerRepository;
+    }
 
     public Issue issue(IssueRequest request) {
         Book book = bookRepository.getById(request.getBookId());
@@ -41,6 +54,8 @@ public class IssuerService extends AbstractService<Issue, IssueRepository> {
         }
         Issue issue = new Issue(request.getBookId(), request.getReaderId());
         repository.save(issue);
+        reader.getBooks().add(book);
+        readerRepository.save(reader);
         return issue;
     }
 

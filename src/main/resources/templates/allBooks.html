@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Books</title>
+
+</head>
+<body>
+<ol>
+    All books in system:
+    <li th:each="book : ${books}">
+        <p th:text="${book.getName()}"></p>
+    </li>
+</ol>
+</body>
+</html>

@@ -8,14 +8,19 @@ import lombok.Data;
 @Data
 public class IssueRequest {
 
-  /**
-   * Идентификатор читателя
-   */
-  private long readerId;
+    public IssueRequest(long readerId, long bookId) {
+        this.readerId = readerId;
+        this.bookId = bookId;
+    }
 
-  /**
-   * Идентификатор книги
-   */
-  private long bookId;
+    /**
+     * Идентификатор читателя
+     */
+    private long readerId;
+
+    /**
+     * Идентификатор книги
+     */
+    private long bookId;
 
 }

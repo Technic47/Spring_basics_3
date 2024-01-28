@@ -47,4 +47,9 @@ public class BookRepository extends AbstractRepository<Book> {
         books.add(item);
         return item;
     }
+
+    @Override
+    public List<Book> getAll() {
+        return books;
+    }
 }

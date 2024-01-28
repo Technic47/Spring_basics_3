@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Readers</title>
+</head>
+<body>
+<ol>
+    All readers in system:
+    <li th:each="reader : ${readers}">
+        <p th:text="${reader.getName()}"></p>
+    </li>
+</ol>
+</body>
+</html>

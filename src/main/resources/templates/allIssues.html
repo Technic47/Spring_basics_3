@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Issues</title>
+</head>
+<body>
+<table style="border: 1px solid black">
+    <thead>
+    Issues
+    </thead>
+    <tbody>
+    <tr th:each="issue : ${issues}">
+        <td th:text="${issue.getBookName()}"/>
+        <td th:text="${issue.getReaderName()}"/>
+        <td th:text="${issue.getIssued_at()}"/>
+        <td th:text="${issue.getReturned_at()}"/>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

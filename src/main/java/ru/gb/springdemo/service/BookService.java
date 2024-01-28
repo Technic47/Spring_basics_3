@@ -6,4 +6,7 @@ import ru.gb.springdemo.repository.BookRepository;
 
 @Service
 public class BookService extends AbstractService<Book, BookRepository> {
+    public BookService(BookRepository bookRepository) {
+        super(bookRepository);
+    }
 }

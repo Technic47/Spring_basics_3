@@ -3,6 +3,7 @@ package ru.gb.springdemo.model;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -10,7 +11,7 @@ import java.util.List;
 public class Reader extends BaseEntity{
   private String name;
 
-  private List<Book> books;
+  private List<Book> books = new ArrayList<>();
 
   public Reader(String name) {
     super();

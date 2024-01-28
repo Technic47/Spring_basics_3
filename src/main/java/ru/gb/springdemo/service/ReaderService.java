@@ -9,6 +9,10 @@ import java.util.List;
 
 @Service
 public class ReaderService extends AbstractService<Reader, ReaderRepository> {
+    public ReaderService(ReaderRepository readerRepository) {
+        super(readerRepository);
+    }
+
     public List<Book> getIssuedBooks(long id) {
         return getById(id).getBooks();
     }

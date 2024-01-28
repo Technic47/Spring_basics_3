@@ -45,4 +45,9 @@ public class ReaderRepository extends AbstractRepository<Reader> {
         readers.add(item);
         return item;
     }
+
+    @Override
+    public List<Reader> getAll() {
+        return readers;
+    }
 }
