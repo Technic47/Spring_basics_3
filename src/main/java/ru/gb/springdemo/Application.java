@@ -2,10 +2,15 @@ package ru.gb.springdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @Configuration
+@EnableJpaRepositories("ru.gb.springdemo.repository")
+@EntityScan("ru.gb.springdemo.model")
 public class Application {
 
 	// http://localhost:8080/swagger-ui.html

@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class IssueRequest {
 
-    public IssueRequest(long readerId, long bookId) {
+    public IssueRequest(Long readerId, Long bookId) {
         this.readerId = readerId;
         this.bookId = bookId;
     }
@@ -16,11 +16,11 @@ public class IssueRequest {
     /**
      * Идентификатор читателя
      */
-    private long readerId;
+    private Long readerId;
 
     /**
      * Идентификатор книги
      */
-    private long bookId;
+    private Long bookId;
 
 }

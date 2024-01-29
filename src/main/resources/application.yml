@@ -3,3 +3,13 @@ application:
 
 server:
   port: 8899
+
+spring:
+  datasource:
+    generate-unique-name: false
+    name: test
+  jpa:
+    generate-ddl: true
+  h2:
+    console:
+      enabled: true

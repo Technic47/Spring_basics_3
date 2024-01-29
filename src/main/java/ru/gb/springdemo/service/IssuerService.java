@@ -1,47 +1,37 @@
 package ru.gb.springdemo.service;
 
-import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.gb.springdemo.api.IssueRequest;
 import ru.gb.springdemo.model.Book;
 import ru.gb.springdemo.model.Issue;
 import ru.gb.springdemo.model.Reader;
-import ru.gb.springdemo.repository.BookRepository;
-import ru.gb.springdemo.repository.IssueRepository;
-import ru.gb.springdemo.repository.ReaderRepository;
+import ru.gb.springdemo.repository.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class IssuerService extends AbstractService<Issue, IssueRepository> {
+@Transactional
+public class IssuerService extends AbstractService<Issue, IssueJpaRepository> {
     @Value("${application.max-allowed-books}")
     private int bookLimit = 1;
 
-    // спринг это все заинжектит
-    private final BookRepository bookRepository;
-    private final ReaderRepository readerRepository;
+    private final BookService bookService;
+    private final ReaderService readerService;
 
-    @PostConstruct
-    public void init() {
-        List<Book> books = bookRepository.getAll();
-        List<Reader> readers = readerRepository.getAll();
-        if (!books.isEmpty() && !readers.isEmpty()) {
-            issue(new IssueRequest(readers.get(0).getId(), books.get(0).getId()));
-        }
+    protected IssuerService(IssueJpaRepository repository, BookService bookService, ReaderService readerService) {
+        super(repository);
+        this.bookService = bookService;
+        this.readerService = readerService;
     }
 
-    public IssuerService(IssueRepository issueRepository, BookRepository bookRepository, ReaderRepository readerRepository) {
-        super(issueRepository);
-        this.bookRepository = bookRepository;
-        this.readerRepository = readerRepository;
-    }
 
     public Issue issue(IssueRequest request) {
-        Book book = bookRepository.getById(request.getBookId());
-        Reader reader = readerRepository.getById(request.getReaderId());
+        Book book = bookService.getById(request.getBookId());
+        Reader reader = readerService.getById(request.getReaderId());
         if (book == null) {
             throw new NoSuchElementException("Не найдена книга с идентификатором \"" + request.getBookId() + "\"");
         }
@@ -55,28 +45,24 @@ public class IssuerService extends AbstractService<Issue, IssueRepository> {
         Issue issue = new Issue(request.getBookId(), request.getReaderId());
         repository.save(issue);
         reader.getBooks().add(book);
-        readerRepository.save(reader);
+        readerService.save(reader);
         return issue;
     }
 
     public Issue close(long id) {
         Issue issue = getById(id);
-        Reader reader = readerRepository.getById(issue.getReaderId());
-        Book book = bookRepository.getById(issue.getBookId());
+        Reader reader = readerService.getById(issue.getReaderId());
+        Book book = bookService.getById(issue.getBookId());
 
         issue.setReturned_at(LocalDateTime.now());
         reader.getBooks().remove(book);
         repository.save(issue);
-        readerRepository.save(reader);
+        readerService.save(reader);
         return issue;
     }
 
     private boolean readerIsAllowed(Reader reader, Book book) {
         List<Book> bookList = reader.getBooks();
         return bookList.size() < bookLimit || !bookList.contains(book);
-    }
-
-    public Issue getById(long id) {
-        return repository.getById(id);
     }
 }
