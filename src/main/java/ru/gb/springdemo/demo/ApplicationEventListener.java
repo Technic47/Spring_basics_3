@@ -3,7 +3,7 @@ package ru.gb.springdemo.demo;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import ru.gb.springdemo.api.IssueRequest;
+import ru.gb.springdemo.model.IssueRequest;
 import ru.gb.springdemo.model.Book;
 import ru.gb.springdemo.model.Reader;
 import ru.gb.springdemo.service.BookService;

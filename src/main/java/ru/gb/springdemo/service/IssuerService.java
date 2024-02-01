@@ -3,7 +3,7 @@ package ru.gb.springdemo.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.gb.springdemo.api.IssueRequest;
+import ru.gb.springdemo.model.IssueRequest;
 import ru.gb.springdemo.model.Book;
 import ru.gb.springdemo.model.Issue;
 import ru.gb.springdemo.model.Reader;

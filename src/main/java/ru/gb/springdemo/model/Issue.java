@@ -1,6 +1,8 @@
 package ru.gb.springdemo.model;
 
 import jakarta.persistence.Entity;
+import ru.gb.springdemo.dto.BaseDto;
+import ru.gb.springdemo.dto.IssueDto;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -28,6 +30,17 @@ public class Issue extends BaseEntity {
     }
 
     public Issue() {
+    }
+
+    @Override
+    public IssueDto createDto() {
+        IssueDto dto = new IssueDto();
+        dto.setId(this.id);
+        dto.setBookId(this.id);
+        dto.setReaderId(this.readerId);
+        dto.setIssued_at(this.issued_at);
+        dto.setReturned_at(this.getReturned_at());
+        return dto;
     }
 
     public long getBookId() {

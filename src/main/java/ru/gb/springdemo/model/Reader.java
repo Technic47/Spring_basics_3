@@ -3,13 +3,12 @@ package ru.gb.springdemo.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import ru.gb.springdemo.dto.ReaderDto;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -24,6 +23,21 @@ public class Reader extends BaseEntity {
     }
 
     public Reader() {
+    }
+
+    @Override
+    public ReaderDto createDto() {
+        ReaderDto dto = new ReaderDto();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        List<String> bookNames = new ArrayList<>();
+        if (!books.isEmpty()) {
+            bookNames = books.stream()
+                    .map(Book::getName)
+                    .collect(Collectors.toList());
+        }
+        dto.setBookNames(bookNames);
+        return dto;
     }
 
     public String getName() {

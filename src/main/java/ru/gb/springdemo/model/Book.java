@@ -2,6 +2,8 @@ package ru.gb.springdemo.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import ru.gb.springdemo.dto.BaseDto;
+import ru.gb.springdemo.dto.BookDto;
 
 import java.util.Objects;
 
@@ -18,6 +20,16 @@ public class Book extends BaseEntity {
     }
 
     public Book() {
+    }
+
+    @Override
+    public BookDto createDto(){
+        BookDto dto = new BookDto();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        String newReaderName = this.reader == null ? "" : this.reader.getName();
+        dto.setReaderName(newReaderName);
+        return dto;
     }
 
     public String getName() {

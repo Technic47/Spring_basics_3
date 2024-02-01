@@ -4,6 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import ru.gb.springdemo.dto.BaseDto;
 
 import java.util.Objects;
 
@@ -13,6 +14,8 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
+
+    public abstract <DTO extends BaseDto> DTO createDto();
 
     public long getId() {
         return id;
