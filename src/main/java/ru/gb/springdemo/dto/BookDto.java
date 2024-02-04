@@ -10,7 +10,7 @@ public class BookDto extends BaseDto{
         BookDto dto = new BookDto();
         dto.setId(book.getId());
         dto.setName(book.getName());
-        String newReaderName = book.getReader() == null ? "" : book.getReader().getName();
+        String newReaderName = book.getReader() == null ? "" : book.getReader().getUsername();
         dto.setReaderName(newReaderName);
         return dto;
     }

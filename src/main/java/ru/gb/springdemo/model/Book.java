@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Book extends BaseEntity {
     private String name;
     @ManyToOne
-    private Reader reader;
+    private UserEntity reader;
 
     public Book(String name) {
         super();
@@ -27,7 +27,7 @@ public class Book extends BaseEntity {
         BookDto dto = new BookDto();
         dto.setId(this.id);
         dto.setName(this.name);
-        String newReaderName = this.reader == null ? "" : this.reader.getName();
+        String newReaderName = this.reader == null ? "" : this.reader.getUsername();
         dto.setReaderName(newReaderName);
         return dto;
     }
@@ -36,11 +36,11 @@ public class Book extends BaseEntity {
         return name;
     }
 
-    public Reader getReader() {
+    public UserEntity getReader() {
         return reader;
     }
 
-    public void setReader(Reader reader) {
+    public void setReader(UserEntity reader) {
         this.reader = reader;
     }
 

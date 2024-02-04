@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class BookController extends AbstractController<Book, BookService> {
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content)})
     @Override
-    public ResponseEntity<BookDto> getItem(long id) {
+    public ResponseEntity<BookDto> getItem(@PathVariable Long id) {
         return super.getItem(id);
     }
 
@@ -40,7 +41,7 @@ public class BookController extends AbstractController<Book, BookService> {
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content)})
     @Override
-    public ResponseEntity deleteItem(long id) {
+    public ResponseEntity deleteItem(@PathVariable Long id) {
         return super.deleteItem(id);
     }
 

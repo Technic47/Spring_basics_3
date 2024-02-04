@@ -27,7 +27,7 @@ public class IssuerController extends AbstractController<Issue, IssuerService>{
         super(service);
     }
 
-    @Operation(summary = "Get Book by id")
+    @Operation(summary = "Get Issue by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book is found",
                     content = {@Content(mediaType = "application/json",
@@ -35,7 +35,7 @@ public class IssuerController extends AbstractController<Issue, IssuerService>{
             @ApiResponse(responseCode = "404", description = "Book not found",
                     content = @Content)})
     @Override
-    public  ResponseEntity<IssueDto> getItem(long id) {
+    public  ResponseEntity<IssueDto> getItem(@PathVariable Long id) {
         return super.getItem(id);
     }
 
@@ -46,7 +46,7 @@ public class IssuerController extends AbstractController<Issue, IssuerService>{
             @ApiResponse(responseCode = "404", description = "Issue not found",
                     content = @Content)})
     @Override
-    public ResponseEntity deleteItem(long id) {
+    public ResponseEntity deleteItem(@PathVariable Long id) {
         return super.deleteItem(id);
     }
 
@@ -81,7 +81,7 @@ public class IssuerController extends AbstractController<Issue, IssuerService>{
             @ApiResponse(responseCode = "404", description = "Issue not found",
                     content = @Content)})
     @PutMapping("/{issueId}")
-    public ResponseEntity<IssueDto> closeIssue(@PathVariable long issueId){
+    public ResponseEntity<IssueDto> closeIssue(@PathVariable Long issueId){
         Issue closed = service.close(issueId);
         return ResponseEntity.ok(closed.createDto());
     }

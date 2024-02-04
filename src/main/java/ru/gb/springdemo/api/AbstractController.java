@@ -16,13 +16,13 @@ public abstract class AbstractController<T extends BaseEntity, S extends Abstrac
     }
 
     @GetMapping("/{id}")
-    public <DTO extends BaseDto> ResponseEntity<DTO> getItem(@PathVariable long id) {
+    public <DTO extends BaseDto> ResponseEntity<DTO> getItem(@PathVariable Long id) {
         T item = (T) service.getById(id);
         return ResponseEntity.ok(item.createDto());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteItem(@PathVariable long id) {
+    public ResponseEntity deleteItem(@PathVariable Long id) {
         boolean result = service.deleteById(id);
         if (result) {
             return ResponseEntity.ok(true);

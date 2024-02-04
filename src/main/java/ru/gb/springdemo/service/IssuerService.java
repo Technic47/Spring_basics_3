@@ -3,10 +3,7 @@ package ru.gb.springdemo.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.gb.springdemo.model.IssueRequest;
-import ru.gb.springdemo.model.Book;
-import ru.gb.springdemo.model.Issue;
-import ru.gb.springdemo.model.Reader;
+import ru.gb.springdemo.model.*;
 import ru.gb.springdemo.repository.*;
 
 import java.time.LocalDateTime;
@@ -20,18 +17,20 @@ public class IssuerService extends AbstractService<Issue, IssueJpaRepository> {
     private int bookLimit = 1;
 
     private final BookService bookService;
-    private final ReaderService readerService;
+    private final UserService userService;
 
-    protected IssuerService(IssueJpaRepository repository, BookService bookService, ReaderService readerService) {
+    protected IssuerService(IssueJpaRepository repository,
+                            BookService bookService,
+                            UserService userService) {
         super(repository);
         this.bookService = bookService;
-        this.readerService = readerService;
+        this.userService = userService;
     }
 
 
     public Issue issue(IssueRequest request) {
         Book book = bookService.getById(request.getBookId());
-        Reader reader = readerService.getById(request.getReaderId());
+        UserEntity reader = userService.getById(request.getReaderId());
         if (book == null) {
             throw new NoSuchElementException("Не найдена книга с идентификатором \"" + request.getBookId() + "\"");
         }
@@ -45,23 +44,23 @@ public class IssuerService extends AbstractService<Issue, IssueJpaRepository> {
         Issue issue = new Issue(request.getBookId(), request.getReaderId());
         repository.save(issue);
         reader.getBooks().add(book);
-        readerService.save(reader);
+        userService.save(reader);
         return issue;
     }
 
     public Issue close(long id) {
         Issue issue = getById(id);
-        Reader reader = readerService.getById(issue.getReaderId());
+        UserEntity reader = userService.getById(issue.getReaderId());
         Book book = bookService.getById(issue.getBookId());
 
         issue.setReturned_at(LocalDateTime.now());
         reader.getBooks().remove(book);
         repository.save(issue);
-        readerService.save(reader);
+        userService.save(reader);
         return issue;
     }
 
-    private boolean readerIsAllowed(Reader reader, Book book) {
+    private boolean readerIsAllowed(UserEntity reader, Book book) {
         List<Book> bookList = reader.getBooks();
         return bookList.size() < bookLimit || !bookList.contains(book);
     }
