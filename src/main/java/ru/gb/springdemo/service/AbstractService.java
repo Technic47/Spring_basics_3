@@ -6,6 +6,7 @@ import ru.gb.springdemo.repository.AbstractJpaRepository;
 import java.util.List;
 import java.util.Optional;
 
+
 public abstract class AbstractService<T extends BaseEntity, R extends AbstractJpaRepository<T>> {
     protected final R repository;
 

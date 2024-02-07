@@ -4,9 +4,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import ru.gb.springdemo.aspect.MethodTimer;
 import ru.gb.springdemo.dto.BaseDto;
 import ru.gb.springdemo.model.BaseEntity;
 import ru.gb.springdemo.service.AbstractService;
+
 
 public abstract class AbstractController<T extends BaseEntity, S extends AbstractService> {
     protected final S service;
